@@ -1,0 +1,3 @@
+[submodule "SaleaeAnalyzerSDK"]
+	path = SaleaeAnalyzerSDK
+	url = https://github.com/saleae/AnalyzerSDK.git
