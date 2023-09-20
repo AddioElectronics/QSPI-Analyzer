@@ -13,19 +13,19 @@ Analyzer for low level debugging of the QSPI Protocol, for use with Saleae and K
 ##### Images
 <details closed>
   <summary>KingstVIS</summary>
-    <IMG src="https://github.com/AddioElectronics/QSPI-Analyzer/Images/KingstVIS_Simulation.jpg"/>
+    <IMG src="https://github.com/AddioElectronics/QSPI-Analyzer/blob/master/Images/KingstVIS_Simulation.jpg?raw=true"/>
 </details>
 <details closed>
   <summary>Saleae Logic 1</summary>
-  <IMG src="https://github.com/AddioElectronics/QSPI-Analyzer/Images/SaleaeLogic_Simulation.jpg"/>
+  <IMG src="https://github.com/AddioElectronics/QSPI-Analyzer/blob/master/Images/SaleaeLogic_Simulation.jpg?raw=true"/>
 </details>
 <details closed>
   <summary>Saleae Logic 2</summary>
-  <IMG src="https://github.com/AddioElectronics/QSPI-Analyzer/Images/SaleaeLogic2_Simulation.jpg"/>
+  <IMG src="https://github.com/AddioElectronics/QSPI-Analyzer/blob/master/Images/SaleaeLogic2_Simulation.jpg?raw=true"/>
 </details>
 <details closed>
   <summary>Saleae Logic 2 Settings</summary>
-  <IMG src="https://github.com/AddioElectronics/QSPI-Analyzer/Images/SaleaeLogic2_Settings.jpg" />
+  <IMG src="https://github.com/AddioElectronics/QSPI-Analyzer/blob/master/Images/SaleaeLogic2_Settings.jpg?raw=true" />
 </details>
 
 
