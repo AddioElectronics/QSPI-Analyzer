@@ -55,6 +55,21 @@ Analyzer for low level debugging of the QSPI Protocol, for use with Saleae and K
 ## Building/Debugging
 ---
 **Note:** Saleae users must also run `git submodule update --init --recursive` to download the [Saleae Analyzer SDK][asdk].
+
+
+
+
+**Building with CMake**
+1) For Windows - simply open `Visual Studio`->`Continue Without Code`->`File`->`Open`->`CMake` and select the corresponding CMakeLists.txt from the project folder. Then just select the target configuration(Release or Debug x64) and build it.
+2) For Linux, execute the following in the cloned repository folder
+```shell
+mkdir build && cd build
+cmake -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+cmake --build .
+```
+Then just copy `libQSPI_Analyzer.so` to the directory where you'd like to store Saleae plugins.
+
+
 #### Windows
 
 **Building**
