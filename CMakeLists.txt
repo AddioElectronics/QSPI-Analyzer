@@ -25,4 +25,4 @@ add_library(${PROJECT_NAME} SHARED
 )
 set_target_properties(${PROJECT_NAME} PROPERTIES CXX_STANDARD 17)
 target_link_libraries(${PROJECT_NAME} PUBLIC Saleae::AnalyzerSDK)
-target_compile_definitions(${PROJECT_NAME} PRIVATE SOFTWARE_VER=Saleae)
+target_compile_definitions(${PROJECT_NAME} PRIVATE SALEAE_ANALYZER)
