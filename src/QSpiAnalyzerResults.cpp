@@ -40,7 +40,6 @@ void QSpiAnalyzerResults::GenerateBubbleText(U64 frame_index, Channel &channel, 
                 AddResultString("X");
                 AddResultString("Dummy");
                 data_index = 0;
-                return;
             }
             else
             {
@@ -65,12 +64,11 @@ void QSpiAnalyzerResults::GenerateBubbleText(U64 frame_index, Channel &channel, 
                     //AddResultString("Data");
                     AddResultString(number_str);
                     snprintf(result_str, sizeof(result_str), "Data: %s", number_str);
-                    AddResultString(result_str);
                     break;
                 }
 
+                AddResultString(result_str);
             }
-            AddResultString(result_str);
         }
     } else {
         AddResultString("Error");
