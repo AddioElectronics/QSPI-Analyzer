@@ -1,9 +1,9 @@
 #ifndef QSPI_ANALYZER_H
 #define QSPI_ANALYZER_H
 
-#ifdef SALEAE_ANALYZER
+#if SOFTWARE == SALEAE
 #define ANALYZER_VERSION Analyzer2
-#elif KINGSTVIS_ANALYZER
+#elif SOFTWARE == KINGSTVIS
 #define ANALYZER_VERSION Analyzer
 #else
 #error Not supported or undefined
