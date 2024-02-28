@@ -44,7 +44,7 @@ void QSpiAnalyzer::WorkerThread()
         }
 
         mCurrentSample = mCs->GetSampleNumber();
-        mSck->AdvanceToAbsPosition(mCurrentSample);
+        mSck->AdvanceToAbsPosition(mCurrentSample == 0 ? 0 : mCurrentSample - 1);
         MarkChannels(mCs->GetSampleNumber(), AnalyzerResults::Start, mStartStopMask);
     } else {
         mCurrentSample = mSck->GetSampleNumber();
