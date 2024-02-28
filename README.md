@@ -1,6 +1,4 @@
 # QSPI Analyzer for Saleae Logic/KingstVIS
----
-#### `V1.0.0`
 
 Analyzer for low level debugging of the QSPI Protocol, for use with Saleae and Kingst Logic Analyzers.
 
@@ -37,7 +35,7 @@ Analyzer for low level debugging of the QSPI Protocol, for use with Saleae and K
 
 
 ## Usage
----
+
 #### KingstVIS (Windows)
 - Download and install [Kingst Virtual Instruments Studio][king]
 - Place `QSpiAnalyzer.dll` into your `\KingstVIS\Analyzer` folder. *(Default C:\Program Files\KingstVIS\Analyzer\)*
@@ -59,23 +57,28 @@ Analyzer for low level debugging of the QSPI Protocol, for use with Saleae and K
 ### Building and Debugging with Visual Studio:
 
 1. Open Project in Visual Studio with Administrative rights ***1**
-2. Select either the "KingstVIS" or "Saleae project" depending on which software you are using.
-3. Hit Play, and your software will launch with a debugger attached.
+2. Select a configuration that is relative to your software _(Logic1, Logic2, or KingstVIS)_
+3. Confirm debugger, and build event paths are correct.
+4. Hit Play, and your software will launch with a debugger attached.
 
-***1** *Only required to run as admin when your software is installed in a protected folder like Program Files, and if you wish to use post-build event to copy DLL directly to your analyzers folder*
+***1** Build event requires running VS with administrative rights, to copy the DLL to your analyzers folder.
 
-**Post Build Events**:
+**Debugger Path and Post Build Event**:
 
-The commands will manually copy the DLL to your analyzers folder, and start your software, and to allow the debugger to attach when you hit _Start Debugging_ or _F5_.
+The commands will manually copy the DLL to your analyzers folder,  and start your software, before attaching a debugger when you hit _Start Debugging_ or _F5_.
 
 `The following steps are required if any of the following are true`
 
  - [ ] Your software was **not** installed to default location
  - [ ] Your system is **32 bit**
- - [ ] You are using Saleae Logic **2**
 
 1. Edit Project `Properties->Debugging->Command` to target your software's executable
 2. Edit Project `Properties->Build Events->Post-Build Event->Command Line` to make sure the **copy target** is your software's **Analyzers folder.**
+
+**Note**:
+Logic 1 may throw an exception when debugger is auto-attached. If this happens, use _Debug->Start without debugging_ or _Ctrl+F5_. You may be able to attach the debugger after using _Debug->Attach To Process..._ or _Ctrl+Alt+P_. 
+**Note2**:
+For some reason yesterday I was only able to attach a debugger using _Attach To Process_, but now today even that isn't working.
 
 ### Building with CMake:
 
@@ -89,19 +92,19 @@ cmake --build .
 Then just copy `libQSPI_Analyzer.so` to the directory where you'd like to store Saleae plugins.
 
 ### Included Libraries
----
+
 They are both almost identical, but unfortunately are not compatible.
-The only difference I noticed at first glance was the "Analyzers SDK" has/uses the `Analyzer2` class which derives from `Analyzer`.
+The only difference I noticed at first glance was the "Analyzers SDK" uses the `Analyzer2` class.
 - [Analyzer SDK (Saleae)][asdk] 
 - [Custom Protocol Analyzers SDK (Kingst)][kingsdk]
 
 ## License
----
+
 - [QSPI Analyzer](https://github.com/AddioElectronics/QSPI-Analyzer/LICENSE)
 - [Analyzer SDK](https://github.com/AddioElectronics/QSPI-Analyzer/SDK_LICENSE)
 
 ## Author
----
+
 - Author : Addio
 - Website : www.Addio.io
 
