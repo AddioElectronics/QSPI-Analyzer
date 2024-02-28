@@ -71,6 +71,7 @@ The commands will manually copy the DLL to your analyzers folder,  and start you
 
  - [ ] Your software was **not** installed to default location
  - [ ] Your system is **32 bit**
+ - [ ] You are using Logic 2 (_Logic 2 does not have a default folder for custom analyzers_)
 
 1. Edit Project `Properties->Debugging->Command` to target your software's executable
 2. Edit Project `Properties->Build Events->Post-Build Event->Command Line` to make sure the **copy target** is your software's **Analyzers folder.**
