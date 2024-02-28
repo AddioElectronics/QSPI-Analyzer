@@ -32,14 +32,15 @@ void QSpiAnalyzerResults::GenerateBubbleText(U64 frame_index, Channel &channel, 
             U32 bit_count = GetStateBitCount(mSettings, transaction_state);
             U32 clock_count = GetStateClockCount(mSettings, transaction_state, data_lines);
 
-            char number_str[128];
-            char result_str[128];
+            char number_str[128] = { 0 };
+            char result_str[128] = { 0 };
 
             if (frame.mType == QSpiTypes::DUMMY_STATE)
             {
                 AddResultString("X");
                 AddResultString("Dummy");
                 data_index = 0;
+                return;
             }
             else
             {
@@ -65,12 +66,9 @@ void QSpiAnalyzerResults::GenerateBubbleText(U64 frame_index, Channel &channel, 
                     AddResultString(number_str);
                     snprintf(result_str, sizeof(result_str), "Data: %s", number_str);
                     AddResultString(result_str);
-                    snprintf(result_str, sizeof(result_str), "Data %d: %s", data_index++, number_str);
                     break;
                 }
 
-                
-                
             }
             AddResultString(result_str);
         }
@@ -101,10 +99,10 @@ void QSpiAnalyzerResults::GenerateExportFile(const char *file, DisplayBase displ
             continue;
         }
 
-        char time_str[128];
-        AnalyzerHelpers::GetTimeString(frame.mStartingSampleInclusive, trigger_sample, sample_rate, time_str, 128);
+        char time_str[128] = { 0 };
+        AnalyzerHelpers::GetTimeString(frame.mStartingSampleInclusive, trigger_sample, sample_rate, time_str, sizeof(time_str));
 
-        char data_str[128] = "";
+        char data_str[128] = { 0 };
 
         QSpiTypes::TransactionState transaction_state = (QSpiTypes::TransactionState)frame.mType;
         QSpiTypes::IOMode data_lines = GetIOMode(mSettings, transaction_state);
@@ -112,10 +110,10 @@ void QSpiAnalyzerResults::GenerateExportFile(const char *file, DisplayBase displ
         U32 clock_count = GetStateClockCount(mSettings, transaction_state, data_lines);
 
         if (frame.mType == QSpiTypes::DUMMY_STATE){
-            strcpy(data_str, "Dummy");
+            strncpy(data_str, "Dummy", sizeof(data_str));
         }
         else{
-            AnalyzerHelpers::GetNumberString(frame.mData1, display_base, bit_count, data_str, 128);
+            AnalyzerHelpers::GetNumberString(frame.mData1, display_base, bit_count, data_str, sizeof(data_str));
         }
 
         U64 packet_id = GetPacketContainingFrameSequential(i);
@@ -144,7 +142,7 @@ void QSpiAnalyzerResults::GenerateFrameTabularText(U64 frame_index, DisplayBase 
     Frame frame = GetFrame(frame_index);
 
 
-    char data_str[128];
+    char data_str[128] = { 0 };
     QSpiTypes::TransactionState transaction_state = (QSpiTypes::TransactionState)frame.mType;
     QSpiTypes::IOMode data_lines = GetIOMode(mSettings, transaction_state);
     U32 bit_count = GetStateBitCount(mSettings, transaction_state);
@@ -157,16 +155,11 @@ void QSpiAnalyzerResults::GenerateFrameTabularText(U64 frame_index, DisplayBase 
         if (frame.mType != QSpiTypes::DATA_STATE && data_index > 0)
         {
             data_index = 0;
-            /*ss << " ";
-            AddTabularText(ss.str().c_str());
-            ss.clear();*/
         }
 
         if (frame.mType == QSpiTypes::DUMMY_STATE)
         {
-            /*ss << "Dummy: ";
-            strcpy(data_str, "(Dummy)");*/
-            sprintf(data_str, "(Dummy) %d bits", bit_count);
+            snprintf(data_str, sizeof(data_str), "(Dummy) %d bits", bit_count);
         }
         else
         {
@@ -179,13 +172,11 @@ void QSpiAnalyzerResults::GenerateFrameTabularText(U64 frame_index, DisplayBase 
                     ss << "Addr: ";
                     break;
                 case QSpiTypes::DATA_STATE:
-                    sprintf(data_str, "Data %d: ", data_index++);
-                    //ss << "Data: ";
-                    ss << data_str;
+                    snprintf(data_str, sizeof(data_str), "Data %d: ", data_index++);
                     break;
             }
 
-            AnalyzerHelpers::GetNumberString(frame.mData1, display_base, bit_count, data_str, 128);
+            AnalyzerHelpers::GetNumberString(frame.mData1, display_base, bit_count, data_str, sizeof(data_str));
         }
 
         ss << data_str;
