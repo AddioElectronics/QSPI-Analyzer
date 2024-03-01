@@ -60,10 +60,7 @@ void QSpiAnalyzerResults::GenerateBubbleText(U64 frame_index, Channel &channel, 
                     data_index = 0;
                     break;
                 case QSpiTypes::DATA_STATE:
-                    AddResultString("D");
-                    //AddResultString("Data");
                     AddResultString(number_str);
-                    snprintf(result_str, sizeof(result_str), "Data: %s", number_str);
                     break;
                 }
 
