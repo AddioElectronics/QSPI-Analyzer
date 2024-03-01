@@ -336,7 +336,7 @@ void QSpiAnalyzer::GetBlock()
 
     Frame result_frame;
     result_frame.mStartingSampleInclusive = first_sample;
-    result_frame.mEndingSampleInclusive = mSck->GetSampleNumber();
+    result_frame.mEndingSampleInclusive = WouldAdvancingTheClockToggleEnable () ? mCs->GetSampleOfNextEdge() : mSck->GetSampleOfNextEdge();
     result_frame.mData1 = data_word;
     result_frame.mFlags = 0;
     result_frame.mType = (U8)mTransactionState;
@@ -430,7 +430,7 @@ void QSpiAnalyzer::GetDummyBlock()
 
     Frame result_frame;
     result_frame.mStartingSampleInclusive = first_sample;
-    result_frame.mEndingSampleInclusive = mSck->GetSampleNumber();
+    result_frame.mEndingSampleInclusive = WouldAdvancingTheClockToggleEnable() ? mSck->GetSampleNumber() : mSck->GetSampleOfNextEdge();
     result_frame.mData1 = 0;
     result_frame.mFlags = 0;
     result_frame.mType = (U8)mTransactionState;
