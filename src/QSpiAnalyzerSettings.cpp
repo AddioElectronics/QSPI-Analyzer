@@ -151,6 +151,11 @@ QSpiAnalyzerSettings::QSpiAnalyzerSettings()
     mDataRateInterface->AddNumber(QSpiTypes::DDR, "DDR", "");
     mDataRateInterface->SetNumber(mDataRate);
 
+    mIgnoreInitialClkStateInterface.reset(new AnalyzerSettingInterfaceBool());
+    mIgnoreInitialClkStateInterface->SetTitleAndTooltip("", "Ignore initial CS/CLK state");
+    mIgnoreInitialClkStateInterface->SetCheckBoxText("Ignore initial CLK state");
+    mIgnoreInitialClkStateInterface->SetValue(mIgnoreInitialClkState);
+
     mUseShowMarkerInterface.reset(new AnalyzerSettingInterfaceBool());
     mUseShowMarkerInterface->SetTitleAndTooltip("", "Show decode marker or not");
     mUseShowMarkerInterface->SetCheckBoxText("Show Decode Marker");
@@ -180,6 +185,8 @@ QSpiAnalyzerSettings::QSpiAnalyzerSettings()
 
     AddInterface(mCsPreEnabledInterface.get());
     AddInterface(mCsPostEnabledInterface.get());
+
+    AddInterface(mIgnoreInitialClkStateInterface.get());
 
     AddInterface(mUseShowMarkerInterface.get());
 
@@ -258,6 +265,8 @@ bool QSpiAnalyzerSettings::SetSettingsFromInterfaces()
 
     mCsPreCycles = mCsPreEnabledInterface->GetNumber();
     mCsPostCycles = mCsPostEnabledInterface->GetNumber();
+
+    mIgnoreInitialClkState = mIgnoreInitialClkStateInterface->GetValue();
 
     mShowMarker = mUseShowMarkerInterface->GetValue();
 
@@ -394,6 +403,8 @@ void QSpiAnalyzerSettings::UpdateInterfacesFromSettings()
     mDataRateInterface->SetNumber(mDataRate);
     mCsPreEnabledInterface->SetNumber(mCsPreCycles);
     mCsPostEnabledInterface->SetNumber(mCsPostCycles);
+
+    mIgnoreInitialClkStateInterface->SetValue(mIgnoreInitialClkState);
 
     mUseShowMarkerInterface->SetValue(mShowMarker);
 }
