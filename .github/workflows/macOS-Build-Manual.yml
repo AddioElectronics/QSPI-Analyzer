@@ -22,7 +22,8 @@ jobs:
         run: |
           cmake -B build \
             -DCMAKE_BUILD_TYPE=${{ inputs.build_type }} \
-            -DCMAKE_OSX_ARCHITECTURES=arm64
+            -DCMAKE_OSX_ARCHITECTURES=arm64 \
+            -DAnalyzerSDK_DIR="${GITHUB_WORKSPACE}/SaleaeAnalyzerSDK"
 
       - name: Build
         run: cmake --build build
