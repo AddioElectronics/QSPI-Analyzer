@@ -2,13 +2,22 @@
 
 Analyzer for low level debugging of the QSPI Protocol, for use with Saleae and Kingst Logic Analyzers.
 
-##### Features
+## Supported Platforms
+
+| SDK    | Windows x86 | Windows x64 | Windows arm64 | Linux x64 | Linux arm64 | Mac x64 | Mac arm64 |
+|--------|-------------|-------------|---------------|-----------|-------------|---------|-----------|
+| Saleae | –           | ✓           | ⚠             | ⚠         | ⚠           | ⚠       | ⚠      |   |
+| Kingst | ⚠           | ✓           | –             | ⚠         | –           | ⚠       | –      |   
+
+*✓  Supported • ⚠  Not tested • – Not supported*
+
+## Features
 - Command, Address, Dummy and Data blocks.
 - Supports SIO, DIO, and QIO for Command, Address, and data. Dummy is SIO.
 - Endianess, CPOL/CPHA, CS Idle State, Extra CS Pre and Post cycles
 - All settings simulated.
 
-##### Images
+## Images
 <details closed>
   <summary>KingstVIS</summary>
     <IMG src="https://github.com/AddioElectronics/QSPI-Analyzer/blob/master/Images/KingstVIS_Simulation.jpg?raw=true"/>
@@ -27,26 +36,25 @@ Analyzer for low level debugging of the QSPI Protocol, for use with Saleae and K
 </details>
 
 
-##### Future Plans
+##### Roadmap
 - Octal IO
 - Operation without chip select
 - DDR
 
 
-
 ## Usage
+
+#### Saleae Logic 1 & 2
+- Download and install [Saleae Logic 1][logic1] or [Saleae Logic 2][logic2]
+- [Custom Analyzer Install Instructions][logictutorial]
+- Add "QSPI" to Analyzer list
+- Set the channels and settings to match your QSPI master device.
+- Capture data from Logic Analyzer **or** press play without device connected to simulate data.
 
 #### KingstVIS (Windows)
 - Download and install [Kingst Virtual Instruments Studio][king]
 - Place `QSpiAnalyzer.dll` into your `\KingstVIS\Analyzer` folder. *(Default C:\Program Files\KingstVIS\Analyzer\)*
 - Open KingstVIS and add "QSPI" to Analyzer list
-- Set the channels and settings to match your QSPI master device.
-- Capture data from Logic Analyzer **or** press play without device connected, which will simulate data.
-
-#### Saleae Logic 1 & 2
-- Download and install [Saleae Logic 1][logic1] **or** Download and install [Saleae Logic 2][logic2]
-- [Custom Analyzer Install Instructions][logictutorial]
-- Add "QSPI" to Analyzer list
 - Set the channels and settings to match your QSPI master device.
 - Capture data from Logic Analyzer **or** press play without device connected to simulate data.
 
@@ -79,23 +87,61 @@ The commands will manually copy the DLL to your analyzers folder,  and start you
 **Note**:
 Logic 1 may throw an exception when debugger is auto-attached. If this happens, use _Debug->Start without debugging_ or _Ctrl+F5_. You may be able to attach the debugger after using _Debug->Attach To Process..._ or _Ctrl+Alt+P_. 
 **Note2**:
-For some reason yesterday I was only able to attach a debugger using _Attach To Process_, but now today even that isn't working.
+Attach a debugger is not reliable, may only work when using _Attach To Process_, and that also has a possibility to fail.
 
-### Building with CMake:
+### Building with CMake (Wizard Script)
 
-1) For Windows - simply open `Visual Studio`->`Continue Without Code`->`File`->`Open`->`CMake` and select the corresponding CMakeLists.txt from the project folder. Then just select the target configuration(Release or Debug x64) and build it.
-2) For Linux, execute the following in the cloned repository folder
-```shell
+> Untested on MacOS, please report any issues.
+
+Run build.py, and it will guide you through selecting the SDK, platform, architecture, and build type automatically.
+
+``` bash
+python build.py
+```
+The wizard also supports invoking with arguments to skip prompts. Pass `--help` for more info.
+
+### Building with CMake (Visual Studio)
+Open Visual Studio → Continue Without Code → File → Open → CMake → select CMakeLists.txt.
+Then choose configuration (Debug/Release, x64) and build.
+
+### Building with CMake (Shell Commands)
+
+**Targeting an SDK**:
+Use `-DTARGET_SDK=[saleae|kingst]` option when configuring CMake.
+_Will default to saleae if not included._
+
+
+Example:
+
+1) Windows
+``` bash
+cmake -G "Visual Studio 18 2026" -A x64 -DTARGET_SDK=saleae ..
+cmake --build . --config Release
+```
+
+2) Linux
+``` bash
 mkdir build && cd build
-cmake -G"Unix Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+cmake -DTARGET_SDK=saleae -DCMAKE_BUILD_TYPE=Release ..
 cmake --build .
 ```
-Then just copy `libQSPI_Analyzer.so` to the directory where you'd like to store Saleae plugins.
 
-### Included Libraries
+3) macOS
+``` bash
+mkdir build && cd build
+cmake -DTARGET_SDK=saleae -DCMAKE_BUILD_TYPE=Release ..
+cmake --build .
+```
 
-They are both almost identical, but unfortunately are not compatible.
-The only difference I noticed at first glance was the "Analyzers SDK" uses the `Analyzer2` class.
+After building:
+Copy the generated plugin to your analyzer’s plugin directory:
+
+**Windows**: QSPI_Analyzer.dll
+**Linux**: libQSPI_Analyzer.so
+**macOS**: libQSPI_Analyzer.dylib
+
+## SDKs
+
 - [Analyzer SDK (Saleae)][asdk] 
 - [Custom Protocol Analyzers SDK (Kingst)][kingsdk]
 
