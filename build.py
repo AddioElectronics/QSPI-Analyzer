@@ -1,4 +1,5 @@
 import os
+import platform as Platform
 import subprocess
 import sys
 import argparse
@@ -149,6 +150,16 @@ def get_vs_generators():
 
     return generators
 
+def remap_arch(arch):
+    if arch == "AMD64" or arch == "x86_64":
+        return "x64"
+    elif arch == "aarch64" or arch == "ARM64":
+        return "arm64"
+    return arch
+
+def get_native_arch():
+    return remap_arch(Platform.machine())
+
 # -----------------------------
 # OS detection
 # -----------------------------
@@ -195,8 +206,8 @@ build_group.add_argument(
 
 build_group.add_argument(
     '-a', "--arch",
-    choices=['x64', 'arm64', 'Win32'],
-    metavar="Saleae: {x64,arm64} | Kingst: {x64,Win32}",
+    choices=['native', 'x64', 'arm64', 'Win32'],
+    metavar="{native} | Saleae: {x64,arm64} | Kingst: {x64,Win32}",
     required=False,
     help="Target CPU architecture. "
          "Saleae supports: x64, arm64. "
@@ -233,6 +244,7 @@ if os_name == "win":
 
     win_group.add_argument(
         '-v', "--vs",
+        type=int,
         choices=[g['version'] for g in vs_generators],
         required=False,
         help="Visual Studio generator version to use for CMake."
@@ -253,8 +265,8 @@ else:
     parser.add_argument('-v', '--vs', required=False, help=argparse.SUPPRESS)
     parser.add_argument('-p', '--platform', required=False, help=argparse.SUPPRESS)
     parser.add_argument('-u', '--distro', required=False, help=argparse.SUPPRESS)
-    parser.add_argument('-p', '--vs-index', required=False, help=argparse.SUPPRESS)
-    parser.add_argument('-u', '--distro-index', required=False, help=argparse.SUPPRESS)
+    parser.add_argument('-vsi', '--vs-index', required=False, help=argparse.SUPPRESS)
+    parser.add_argument('-di', '--distro-index', required=False, help=argparse.SUPPRESS)
 
 if has_wsl:
     win_group.add_argument(
@@ -281,6 +293,15 @@ if has_wsl:
         help="Selects a WSL linux distro by index. Warning: Will raise if used with --distro."
     )
     
+cmake_group = parser.add_argument_group(
+    title="CMAKE")
+
+cmake_group.add_argument(
+    "--verbose",
+    required=False,
+    action="store_true",
+    help="Call CMAKE with --verbose"
+)
 
 
 args = parser.parse_args()
@@ -289,25 +310,26 @@ args = parser.parse_args()
 # -----------------------------
 # Argument conversion
 # -----------------------------
-# Convert argument option from version (18) to full string (Visual Studio 18 2026)
-if args.vs is not None:
+if os_name == "win":
+    # Convert argument option from version (18) to full string (Visual Studio 18 2026)
+    if args.vs is not None:
+        if args.vs_index is not None:
+            raise argparse.ArgumentError("Both --vs and --vs-index were set")
+        args.vs = next(
+            (g for g in vs_generators if g["version"] == args.vs),
+            None
+        )["full"]
+
+    # Set vs value from index
     if args.vs_index is not None:
-        raise argparse.ArgumentError("Both --vs and --vs-index were set")
-    args.vs = next(
-        (g for g in vs_generators if g["version"] == args.vs),
-        None
-    )["full"]
+        args.vs = vs_generators[args.vs_index]["full"]    
 
-# Set vs value from index
-if args.vs_index is not None:
-    args.vs = vs_generators[args.vs_index]["full"]    
-
-# Set distro from index
-if args.distro_index is not None:
-    if args.distro is not None:
-        raise argparse.ArgumentError("Both --distro and --distro-index were set")
-    if len(distros) != 0:
-        args.distro = distros[args.distro_index]
+    # Set distro from index
+    if args.distro_index is not None:
+        if args.distro is not None:
+            raise argparse.ArgumentError("Both --distro and --distro-index were set")
+        if len(distros) != 0:
+            args.distro = distros[args.distro_index]
 
 # -----------------------------
 # Target Platform
@@ -332,16 +354,29 @@ sdk = pick("--sdk", args.sdk, "Select analyzer SDK:", ["saleae", "kingst"])
 # -----------------------------
 # Select architecture
 # -----------------------------
-arches = ["x64"]
+arches = ["native", "x64"]
 
 if sdk == "saleae":
     arches.append("arm64")
 
 if sdk == "kingst" and platform == "win":
-    print(platform)
     arches.append("Win32")
 
 arch = pick("--arch", args.arch, "Select architecture:", arches)
+use_native_arch = arch == "native"
+native_arch = get_native_arch()
+
+if arch == "native":
+    if native_arch != arch:
+        arch = native_arch
+            
+        if not native_arch in arches:
+            supported_arches = [a for a in arches if a != "native"]
+            raise RuntimeError(f"Native architecture {native_arch} not supported: {supported_arches}")
+        
+# Stop cross toolchain from being used
+use_native_arch = arch == native_arch
+    
 
 # -----------------------------
 # Select build configuration
@@ -387,6 +422,32 @@ else:
 # -----------------------------
 if platform == "mac":
     cmake_cmd.append(f"-DCMAKE_OSX_ARCHITECTURES={arch}")
+    
+# -----------------------------
+# Linux arch
+# -----------------------------
+if not use_native_arch and platform == "linux":
+    
+    toolchain = f"cmake/toolchains/linux-{arch}.cmake"
+    toolchain_path = os.path.join(BASE_DIR, toolchain).replace('\\', '/')
+    
+    if not os.path.exists(toolchain_path):
+        raise RuntimeError(f"No toolchain not found for architecture: {toolchain}")
+    
+    # WSL path handling note:
+    # - Running directly inside WSL works fine with relative paths.
+    # - Windows → WSL invocation can break relative paths depending on working directory.
+    # - Absolute Windows paths are not valid in WSL context.
+    #
+    # Therefore:
+    # - Use absolute WSL-resolved paths when launched from Windows.
+    # - Use relative paths when running natively in WSL.
+    if use_wsl:
+        toolchain_path = get_abs_build_path(toolchain)
+    
+    cmake_cmd.append(f"-DCMAKE_TOOLCHAIN_FILE={toolchain_path}")
+else:
+    toolchain = NOTAPPLICABLE
 
 # -----------------------------
 # Confirmation
@@ -395,11 +456,13 @@ print("\nConfirm Selected Options:")
 print(f"""
   SDK: {sdk}
   Arch: {arch}
+  Use Native Arch: {use_native_arch}
   Platform: {platform}
   Configuration: {build_config}
   WSL Distro: {distro}
   Visual Studio: {vs}
   Build Directory: {build_dir}
+  Toolchain: {toolchain}
 """)
 
 if args.skip is False:
@@ -411,6 +474,7 @@ if args.skip is False:
 # Configure
 # -----------------------------
 print("\nConfiguring...")
+
 run(cmake_cmd, use_wsl=use_wsl, distro=distro)
 
 print("\nConfiguration complete!")
@@ -418,11 +482,15 @@ print("\nConfiguration complete!")
 # -----------------------------
 # Build?
 # -----------------------------
-do_build = (platform != "win" or args.build is True if args.skip is True else
+
+do_build = platform != "win" or (args.build is True if args.skip is True else
     pick("--build", args.build, "Build project?", ["yes", "no"]) == "yes")
 
 if do_build:
     build_cmd = ["cmake", "--build", build_dir]
+    
+    if args.verbose:
+        build_cmd.append("--verbose")
 
     if platform == "win":
         build_cmd += ["--config", build_config]
