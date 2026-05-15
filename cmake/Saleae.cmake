@@ -9,8 +9,8 @@ message(STATUS "Targeting Saleae SDK: ${AnalyzerSDK_DIR}")
 
 # SDK uses SYSTEM_PROCESSOR to detect arch
 # For windows they expect 'ARM64', 
-# when 'arm64' is what it actually is.
-if(CMAKE_GENERATOR_PLATFORM STREQUAL "arm64")
+# when 'arm64' is what -A requires
+if(WIN32 AND CMAKE_GENERATOR_PLATFORM STREQUAL "arm64")
     set(CMAKE_SYSTEM_PROCESSOR "ARM64")
 endif()
 
