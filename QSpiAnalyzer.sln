@@ -1,50 +1,62 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.6.33815.320
+# Visual Studio Version 18
+VisualStudioVersion = 18.5.11723.231
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QSpiAnalyzer", "QSpiAnalyzer.vcxproj", "{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		DebugKingstVIS|ARM64 = DebugKingstVIS|ARM64
+		DebugKingstVIS|Win32 = DebugKingstVIS|Win32
 		DebugKingstVIS|x64 = DebugKingstVIS|x64
-		DebugKingstVIS|x86 = DebugKingstVIS|x86
+		DebugLogic1|ARM64 = DebugLogic1|ARM64
+		DebugLogic1|Win32 = DebugLogic1|Win32
 		DebugLogic1|x64 = DebugLogic1|x64
-		DebugLogic1|x86 = DebugLogic1|x86
+		DebugLogic2|ARM64 = DebugLogic2|ARM64
+		DebugLogic2|Win32 = DebugLogic2|Win32
 		DebugLogic2|x64 = DebugLogic2|x64
-		DebugLogic2|x86 = DebugLogic2|x86
+		ReleaseKingstVIS|ARM64 = ReleaseKingstVIS|ARM64
+		ReleaseKingstVIS|Win32 = ReleaseKingstVIS|Win32
 		ReleaseKingstVIS|x64 = ReleaseKingstVIS|x64
-		ReleaseKingstVIS|x86 = ReleaseKingstVIS|x86
+		ReleaseLogic1|ARM64 = ReleaseLogic1|ARM64
+		ReleaseLogic1|Win32 = ReleaseLogic1|Win32
 		ReleaseLogic1|x64 = ReleaseLogic1|x64
-		ReleaseLogic1|x86 = ReleaseLogic1|x86
+		ReleaseLogic2|ARM64 = ReleaseLogic2|ARM64
+		ReleaseLogic2|Win32 = ReleaseLogic2|Win32
 		ReleaseLogic2|x64 = ReleaseLogic2|x64
-		ReleaseLogic2|x86 = ReleaseLogic2|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.DebugKingstVIS|ARM64.ActiveCfg = DebugKingstVIS|ARM64
+		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.DebugKingstVIS|Win32.ActiveCfg = DebugKingstVIS|Win32
+		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.DebugKingstVIS|Win32.Build.0 = DebugKingstVIS|Win32
 		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.DebugKingstVIS|x64.ActiveCfg = DebugKingstVIS|x64
 		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.DebugKingstVIS|x64.Build.0 = DebugKingstVIS|x64
-		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.DebugKingstVIS|x86.ActiveCfg = DebugKingstVIS|Win32
-		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.DebugKingstVIS|x86.Build.0 = DebugKingstVIS|Win32
+		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.DebugLogic1|ARM64.ActiveCfg = DebugLogic1|ARM64
+		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.DebugLogic1|ARM64.Build.0 = DebugLogic1|ARM64
+		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.DebugLogic1|Win32.ActiveCfg = DebugLogic1|Win32
 		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.DebugLogic1|x64.ActiveCfg = DebugLogic1|x64
 		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.DebugLogic1|x64.Build.0 = DebugLogic1|x64
-		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.DebugLogic1|x86.ActiveCfg = DebugLogic1|x64
-		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.DebugLogic1|x86.Build.0 = DebugLogic1|x64
+		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.DebugLogic2|ARM64.ActiveCfg = DebugLogic2|ARM64
+		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.DebugLogic2|ARM64.Build.0 = DebugLogic2|ARM64
+		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.DebugLogic2|Win32.ActiveCfg = DebugLogic2|Win32
 		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.DebugLogic2|x64.ActiveCfg = DebugLogic2|x64
 		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.DebugLogic2|x64.Build.0 = DebugLogic2|x64
-		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.DebugLogic2|x86.ActiveCfg = DebugLogic2|x64
-		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.DebugLogic2|x86.Build.0 = DebugLogic2|x64
+		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.ReleaseKingstVIS|ARM64.ActiveCfg = ReleaseKingstVIS|ARM64
+		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.ReleaseKingstVIS|Win32.ActiveCfg = ReleaseKingstVIS|Win32
+		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.ReleaseKingstVIS|Win32.Build.0 = ReleaseKingstVIS|Win32
 		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.ReleaseKingstVIS|x64.ActiveCfg = ReleaseKingstVIS|x64
 		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.ReleaseKingstVIS|x64.Build.0 = ReleaseKingstVIS|x64
-		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.ReleaseKingstVIS|x86.ActiveCfg = ReleaseKingstVIS|Win32
-		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.ReleaseKingstVIS|x86.Build.0 = ReleaseKingstVIS|Win32
+		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.ReleaseLogic1|ARM64.ActiveCfg = ReleaseLogic1|ARM64
+		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.ReleaseLogic1|ARM64.Build.0 = ReleaseLogic1|ARM64
+		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.ReleaseLogic1|Win32.ActiveCfg = ReleaseLogic1|Win32
 		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.ReleaseLogic1|x64.ActiveCfg = ReleaseLogic1|x64
 		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.ReleaseLogic1|x64.Build.0 = ReleaseLogic1|x64
-		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.ReleaseLogic1|x86.ActiveCfg = ReleaseLogic1|x64
-		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.ReleaseLogic1|x86.Build.0 = ReleaseLogic1|x64
+		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.ReleaseLogic2|ARM64.ActiveCfg = ReleaseLogic2|ARM64
+		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.ReleaseLogic2|ARM64.Build.0 = ReleaseLogic2|ARM64
+		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.ReleaseLogic2|Win32.ActiveCfg = ReleaseLogic2|Win32
 		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.ReleaseLogic2|x64.ActiveCfg = ReleaseLogic2|x64
 		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.ReleaseLogic2|x64.Build.0 = ReleaseLogic2|x64
-		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.ReleaseLogic2|x86.ActiveCfg = ReleaseLogic2|x64
-		{35A9CF32-7794-46BA-95E2-41A42E1AC6C0}.ReleaseLogic2|x86.Build.0 = ReleaseLogic2|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

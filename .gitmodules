@@ -1,3 +1,3 @@
-[submodule "SaleaeAnalyzerSDK"]
-	path = SaleaeAnalyzerSDK
+[submodule "thirdparty/SaleaeAnalyzerSDK"]
+	path = thirdparty/SaleaeAnalyzerSDK
 	url = https://github.com/saleae/AnalyzerSDK.git

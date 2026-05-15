@@ -1,4 +1,4 @@
-name: macOS Build (Manual)
+name: MacOS Build (Manual)
 
 on:
   workflow_dispatch:
@@ -12,6 +12,15 @@ jobs:
   build-macos:
     runs-on: macos-latest
 
+    strategy:
+      matrix:
+        sdk: [saleae, kingst]
+        arch: [arm64, x86_64]
+
+        exclude:
+        - sdk: kingst
+          arch: arm64
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -22,7 +31,8 @@ jobs:
         run: |
           cmake -B build \
             -DCMAKE_BUILD_TYPE=${{ inputs.build_type }} \
-            -DCMAKE_OSX_ARCHITECTURES=arm64
+            -DCMAKE_OSX_ARCHITECTURES=${{ matrix.arch }} \
+            -DTARGET_SDK=${{matrix.sdk}}
 
       - name: Build
         run: cmake --build build
@@ -33,5 +43,5 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: macos-${{ inputs.build_type }}
+          name: macos-${{ matrix.sdk }}-${{ matrix.arch }}-${{ inputs.build_type }}
           path: build/*.dylib

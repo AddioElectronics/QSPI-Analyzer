@@ -1,12 +1,12 @@
 #ifndef QSPI_ANALYZER_H
 #define QSPI_ANALYZER_H
 
-#if SOFTWARE == SALEAE
+#if SALEAE_ANALYZER
 #define ANALYZER_VERSION Analyzer2
-#elif SOFTWARE == KINGSTVIS
+#elif defined(KINGST_ANALYZER)
 #define ANALYZER_VERSION Analyzer
 #else
-#error Not supported or undefined
+#error Missing preprocessor definitions
 #endif
 
 #include <Analyzer.h>

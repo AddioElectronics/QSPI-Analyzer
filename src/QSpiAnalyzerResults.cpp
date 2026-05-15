@@ -64,7 +64,8 @@ void QSpiAnalyzerResults::GenerateBubbleText(U64 frame_index, Channel &channel, 
                     break;
                 }
 
-                AddResultString(result_str);
+                if (result_str[0] != '\0')
+                    AddResultString(result_str);
             }
         }
     } else {
@@ -104,8 +105,13 @@ void QSpiAnalyzerResults::GenerateExportFile(const char *file, DisplayBase displ
         U32 bit_count = GetStateBitCount(mSettings, transaction_state);
         U32 clock_count = GetStateClockCount(mSettings, transaction_state, data_lines);
 
-        if (frame.mType == QSpiTypes::DUMMY_STATE){
-            strncpy(data_str, "Dummy", sizeof(data_str));
+        if (frame.mType == QSpiTypes::DUMMY_STATE) {
+#if WIN32
+            strncpy_s(data_str, "Dummy", sizeof(data_str));
+#else
+            snprintf(data_str, sizeof(data_str), "%s", "Dummy");
+#endif
+
         }
         else{
             AnalyzerHelpers::GetNumberString(frame.mData1, display_base, bit_count, data_str, sizeof(data_str));

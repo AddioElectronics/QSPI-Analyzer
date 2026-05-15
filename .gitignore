@@ -22,6 +22,7 @@ mono_crash.*
 [Rr]elease/
 [Rr]eleases/
 [Bb]uild/
+[Bb]uild*/
 x64/
 x86/
 [Ww][Ii][Nn]32/
@@ -32,6 +33,7 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+.vscode/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
