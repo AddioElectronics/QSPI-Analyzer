@@ -1,0 +1,37 @@
+name: macOS Build (Manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: "CMake build type (Release or Debug)"
+        required: true
+        default: "Release"
+
+jobs:
+  build-macos:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Configure CMake
+        run: |
+          cmake -B build \
+            -DCMAKE_BUILD_TYPE=${{ inputs.build_type }} \
+            -DCMAKE_OSX_ARCHITECTURES=arm64
+
+      - name: Build
+        run: cmake --build build
+
+      - name: List build output (debug help)
+        run: find build -type f
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos-${{ inputs.build_type }}
+          path: build/*.dylib
